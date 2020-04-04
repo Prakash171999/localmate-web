@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Driver;
+use App\DriverLocation;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -53,7 +54,54 @@ class AuthController extends Controller
         return response()->json(['user' => auth()->user(), 'access_token' => $accessToken]);
    }
 
-   public function test(){
-       return response()->json(['foo' => 'bar']);
-   }
+//     public function updatePassword($email=null,Request $request){
+//     try{
+            
+//         $validator = Validator::make($request->all(), [
+//             'email' => 'required|unique:users|max:60',
+//             'password' => 'required|string|min:8',
+//         ]);
+        
+//         // $var = User::where(['id'])->get();
+
+//         if ($validator->fails()) {
+//             return response()->json(['errors' => $validator->errors()],400);
+//         }
+//         $Udate = User::find($email);
+//         $Udate->fullname = $request->input('fullname');
+//         $Udate->password = Hash::make($request->input('password'));
+//         $Udate->save();
+//         return response()->json(['data' => 'updated successfully'],200);
+//     }catch(Exception $e){
+//         return response()->json(['errors' => 'Bad Request'], 400);
+//     }
+//   }
+
+    // API for storing the drivers latitude and longitude in database table.
+    public function driverLocation(Request $request){
+        $validatedLocationData = Validator::make($request->all(), [
+            'd_latitude' => 'required|max:60',
+            'd_longitude' => 'required|max:60',
+        ]);
+        if($validatedLocationData->fails()){
+            return response()->json($validatedLocationData->errors()->toArray());
+        }
+        $Dlocation = DriverLocation::where("D_id", "=", $request->input("D_id"))->first();
+        if($Dlocation){
+            return response()->json(['message' => 'Locations already exists for this driver']);
+        }   
+        else{
+		    $Dlocation = new DriverLocation();
+            $Dlocation->d_latitude = $request->input('d_latitude');
+            $Dlocation->d_longitude = $request->input('d_longitude');
+            $Dlocation->D_id = $request->input('D_id');
+            $Dlocation->save();
+            // returning response
+            return response()->json(['location' => $Dlocation]);
+        }       
+    }
+
+    //
+
 }
+
