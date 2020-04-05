@@ -16,19 +16,21 @@ class ForgotPasswordController extends Controller
     | This controller is responsible for handling password reset emails and
     | includes a trait which assists in sending these notifications from
     | your application to your users. Feel free to explore this trait.
-    |
+    | 
     */
 
     use SendsPasswordResetEmails;
 
-    protected function sendResetLinkResponse(Request $request, $response)
-    {
-        return response(['message'=> $response]);
-    }
+    // protected function sendResetLinkResponse(Request $request, $response)
+    // {
+    //     $data = ['success'=> $response];
+    //     return response(['message'=> $data]);
+    // }
 
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
-        return response(['error'=> $response], 422);
-    }
+    // protected function sendResetLinkFailedResponse(Request $request, $response)
+    // {
+    //     $datas = ['fail'=> $response];
+    //     return response(['error'=> $datas], 422);
+    // }
 
 }

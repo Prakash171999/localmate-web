@@ -17,14 +17,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Routes for registraion and login 
 Route::post('/register','Api\AuthController@register');
 Route::post('/login','Api\AuthController@login');
+
+//Routes for storing driver locations
 Route::post('/driverLocation','Api\AuthController@driverLocation');
 
 
-
-// Route::match(['get','post'],'/update/{email}','Api\AuthController@updatePassword');
-
+//Routes for forgot password and reset password
 Route::post('/password/email', 'Api\ForgotPasswordController@sendResetLinkEmail');
 Route::post('/password/reset', 'Api\ResetPasswordController@reset');
 
+// Route::match(['get','post'],'/update/{email}','Api\AuthController@updatePassword');

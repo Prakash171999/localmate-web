@@ -25,11 +25,12 @@ class ResetPasswordController extends Controller
 
     protected function sendResetResponse(Request $request, $response)
     {
-        
-        return response(['message'=> $response]);
+        return response(['msg'=> $response]);
     }
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return response(['error'=> $response], 422);
+       
+        return response(['error'=> $response]);
+        // return ['msg'=> $response];
     }
 }
