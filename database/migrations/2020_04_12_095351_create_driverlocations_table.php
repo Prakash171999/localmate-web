@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDriverLocationsTable extends Migration
+class CreateDriverlocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateDriverLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('driver_locations', function (Blueprint $table) {
+        Schema::create('driverlocations', function (Blueprint $table) {
             $table->bigIncrements('DLid');
             $table->string('d_latitude');
             $table->string('d_longitude');
-            $table->unsignedBigInteger('D_id')->nullable();
-            $table->foreign('D_id')->references('id')->on('drivers');
+            $table->string('isOnline')->nullable();
+            $table->unsignedBigInteger('U_id')->nullable();
+            $table->foreign('U_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateDriverLocationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('driver_locations');
+        Schema::dropIfExists('driverlocations');
     }
 }

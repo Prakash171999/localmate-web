@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use App\DriverLocation;
+use App\driverlocations;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -77,6 +78,9 @@ class AuthController extends Controller
 //     }
 //   }
 
+
+
+    
     // API for storing the drivers latitude and longitude in database table.
     public function driverLocation(Request $request){
         $validatedLocationData = Validator::make($request->all(), [
@@ -86,22 +90,37 @@ class AuthController extends Controller
         if($validatedLocationData->fails()){
             return response()->json($validatedLocationData->errors()->toArray());
         }
-        $Dlocation = DriverLocation::where("D_id", "=", $request->input("D_id"))->first();
+        $Dlocation = driverlocations::where("U_id", "=", $request->input("U_id"))->first();
         if($Dlocation){
-            return response()->json(['message' => 'Locations already exists for this driver']);
+            // $Dlocation->update($request->all());
+            return response()->json(['message' => 'Locations already exists.']);
         }   
         else{
-		    $Dlocation = new DriverLocation();
+		    $Dlocation = new driverlocations();
             $Dlocation->d_latitude = $request->input('d_latitude');
             $Dlocation->d_longitude = $request->input('d_longitude');
-            $Dlocation->D_id = $request->input('D_id');
+            $Dlocation->isOnline = $request->input('isOnline');
+            $Dlocation->U_id = $request->input('U_id');
             $Dlocation->save();
             // returning response
             return response()->json(['location' => $Dlocation]);
         }       
     }
 
-    //
+    //Getting the driver locations data
+    public function drivercoordinates()
+    {
+        // $coordinates = driverlocations::all();
+        // return response()->json($coordinates);    
+
+        $Locations = DB::table('users')
+            ->join('driverlocations', 'users.id', '=' , 'driverlocations.U_id')
+            ->select('users.fullname','users.phoneno','driverlocations.d_latitude','driverlocations.d_longitude')
+            ->where('driverlocations.isOnline', '=', "1")
+            ->get();
+            
+            return response()->json($Locations);
+    }
 
 }
 
