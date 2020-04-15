@@ -14,7 +14,7 @@ class CreateDriverlocationsTable extends Migration
     public function up()
     {
         Schema::create('driverlocations', function (Blueprint $table) {
-            $table->bigIncrements('DLid');
+            $table->bigIncrements('id');
             $table->string('d_latitude');
             $table->string('d_longitude');
             $table->string('isOnline')->nullable();

@@ -90,10 +90,15 @@ class AuthController extends Controller
         if($validatedLocationData->fails()){
             return response()->json($validatedLocationData->errors()->toArray());
         }
-        $Dlocation = driverlocations::where("U_id", "=", $request->input("U_id"))->first();
+        $Dlocation = driverlocations::where("U_id", "=", $request->input("U_id"))->get()->first();
         if($Dlocation){
             // $Dlocation->update($request->all());
-            return response()->json(['message' => 'Locations already exists.']);
+            $Dlocation->d_latitude = $request->input('d_latitude');
+            $Dlocation->d_longitude = $request->input('d_longitude');
+            $Dlocation->isOnline = $request->input('isOnline');
+            $Dlocation->save();
+            // return response()->json(['message' => 'Locations already exists.']);
+            return response()->json($Dlocation);
         }   
         else{
 		    $Dlocation = new driverlocations();

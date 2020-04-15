@@ -21,7 +21,7 @@ Route::post('/register','Api\AuthController@register');
 Route::post('/login','Api\AuthController@login');
 
 //Routes for storing driver locations
-// Route::post('/driverLocation','Api\AuthController@driverLocation');
+// Route::post('/driverLocation/{U_id}','Api\AuthController@driverLocation');
 
 //Storing and updating the drivers co-ordinates
 Route::post('/driverLocation', 'Api\AuthController@driverLocation');
@@ -33,5 +33,4 @@ Route::post('/password/reset', 'Api\ResetPasswordController@reset');
 
 Route::post('/drivercoordinates','Api\AuthController@drivercoordinates');
 
-// Route::match(['get','post'],'/update/{email}','Api\AuthController@updatePassword');
 

@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    <div class="logout">
+        <a title="" href="{{ url('/logout') }}">Log Out</a>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
